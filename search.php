@@ -1,6 +1,10 @@
 <?php
 require 'db.php';
 
+session_start();
+$isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+
+
 // Collect parameters
 $name = $_GET['name'] ?? '';
 $genre = $_GET['genre'] ?? '';
@@ -49,5 +53,9 @@ $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Output as JSON
 header('Content-Type: application/json');
-echo json_encode($movies);
+echo json_encode([
+    'movies' => $movies,
+    'isAdmin' => $isAdmin
+]);
+
 ?>

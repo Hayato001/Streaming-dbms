@@ -29,3 +29,8 @@ INSERT INTO Film (title, releaseYear, filmDescription, genreID, lengthID, rating
 -- (example, linking prequels and sequels if any)
 -- Example:
 -- INSERT INTO Series (prequelID, sequelID) VALUES (1, 2);
+
+
+-- Insert Admin User
+INSERT INTO Admin (username, passwordHash)
+VALUES ('admin', '$2y$12$JkwDnWhSMSEtsthu3DlEtOFVxbcpsupfOT0.0yZsopOyu1Pdgokq2');

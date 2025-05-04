@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +9,14 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-
+    <div class="button-bar">
+        <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true): ?>
+            <a class="button" href="logout.php">🔒 Log Out</a>
+        <?php else: ?>
+            <a class="button" href="admin_login.html">🔑 Admin Login</a>
+        <?php endif; ?>
+        </div>
+        
 <h1>Movie Listings</h1>
 
 <!-- Add Movie Button -->
@@ -72,7 +81,10 @@ async function filterMovies() {
     const params = new URLSearchParams({ name, genre, rating, length });
 
     const response = await fetch(`search.php?${params.toString()}`);
-    const movies = await response.json();
+    const result = await response.json();
+    const movies = result.movies;
+    const isAdmin = result.isAdmin;
+
 
     const container = document.getElementById('movie-list');
     container.innerHTML = '';
@@ -92,10 +104,15 @@ async function filterMovies() {
             <p>Rating: ${movie.ratingID}</p>
             <p>Length: ${movie.lengthCategory}</p>
             <p>Release Year: ${movie.releaseYear}</p>
+    `;
+
+    if (isAdmin) {
+        movieDiv.innerHTML += `
             <a class="button" href="edit_movie.php?filmID=${movie.filmID}">✏️ Edit</a>
             <a class="button delete-button" href="delete_movie.php?filmID=${movie.filmID}" onclick="return confirm('Are you sure you want to delete this movie?')">🗑️ Delete</a>
-            <hr>
         `;
+    }
+
         container.appendChild(movieDiv);
     });
 }

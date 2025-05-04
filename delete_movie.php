@@ -1,4 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    die("Access denied. Admins only.");
+}
+?>
+
+<?php
 require 'db.php';
 
 $filmID = $_GET['filmID'] ?? null;
